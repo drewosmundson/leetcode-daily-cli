@@ -5,6 +5,8 @@ A simple and colorful bash script to fetch and display LeetCode's daily coding c
 The goal of this project is to practice writing tests in a Leetcode style while avoiding the internet for easy answers.
 So to get two birds with one stone, an app that pulls the daily challenge and sets up a template file that you must also write the tests for. All in your choice of C#, Python, and Javascript with plans to expand to Java, C, C++, and Rust.
 
+Special Thanks to the leetcod
+
 ![LeetCode Daily](https://img.shields.io/badge/LeetCode-Daily-orange?style=flat-square&logo=leetcode)
 ![Bash](https://img.shields.io/badge/Shell-Bash-green?style=flat-square&logo=gnu-bash)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)
@@ -173,7 +175,8 @@ If you encounter any issues or have suggestions:
 
 - LeetCode for providing the daily challenges
 - The community for feedback and contributions
-- [LeetCode API](https://github.com/alfaarghya/LeetCode-API) for the unofficial API
+- [LeetCode API](https://github.com/noworneverev/leetcode-api) for the unofficial API
+
 
 ---
 
