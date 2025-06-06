@@ -1,4 +1,4 @@
-# LeetCode Daily Problem Generator 🚀
+# LeetCode Daily Problem CLI
 
 A comprehensive bash script that fetches LeetCode's daily coding challenge and automatically generates solution templates in multiple programming languages.
 
@@ -10,7 +10,7 @@ Special thanks to the [LeetCode API](https://github.com/noworneverev/leetcode-ap
 ![Bash](https://img.shields.io/badge/Shell-Bash-green?style=flat-square&logo=gnu-bash)
 ![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)
 
-## ✨ Features
+## Features
 
 - 🎯 **Auto-generate solution templates** in Python, JavaScript, and C#
 - 📁 **Organized folder structure** with date-based directories
@@ -22,7 +22,7 @@ Special thanks to the [LeetCode API](https://github.com/noworneverev/leetcode-ap
 - 📱 **Multiple execution modes** (file generation or terminal display)
 - 🛠️ **Easy alias setup** for quick access
 
-## 📋 Requirements
+## Requirements
 
 - **curl** (for API requests) - Usually pre-installed
 - **jq** (for JSON parsing) - **Required** for file generation mode
@@ -43,7 +43,7 @@ sudo yum install jq
 sudo pacman -S jq
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Setup
 
@@ -72,9 +72,9 @@ leetcode-daily --terminal
 leetcode-daily --help
 ```
 
-## 📖 Usage Modes
+## Usage Modes
 
-### 🎯 File Generation Mode (Default)
+### File Generation Mode (Default)
 
 Generates a complete workspace for today's LeetCode challenge:
 
@@ -90,7 +90,7 @@ leetcode-daily
   - `leetcode_123_two_sum.js` (JavaScript) 
   - `leetcode_123_two_sum.cs` (C#)
 
-### 🖥️ Terminal Display Mode
+### Terminal Display Mode
 
 View the problem without creating files:
 
@@ -119,7 +119,7 @@ GENERATE_CSHARP=true
 
 **Default behavior:** If no `settings.conf` exists, all languages are generated.
 
-## 📁 Generated File Structure
+## Generated File Structure
 
 ```
 leetcode_problems/
@@ -186,7 +186,7 @@ You may assume that each input would have exactly one solution,
 and you may not use the same element twice.
 ```
 
-## 🔧 Technical Details
+## Technical Details
 
 ### API Endpoint
 Uses: `https://leetcode-api-pied.vercel.app/daily`
@@ -199,7 +199,7 @@ Uses: `https://leetcode-api-pied.vercel.app/daily`
 ### File Naming Convention
 Format: `leetcode_{problem_id}_{sanitized_title}.{extension}`
 
-## 🧪 Testing Your Solutions
+## Testing Your Solutions
 
 Each generated file includes a test structure:
 
@@ -211,7 +211,7 @@ def test_solution():
     print("✅ All tests passed!")
 ```
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -237,7 +237,7 @@ curl --version
 jq --version
 ```
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
@@ -255,11 +255,11 @@ jq --version
 - [ ] Problem history tracking
 - [ ] Solution validation
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🐛 Issues & Support
+## Issues & Support
 
 If you encounter any issues:
 
@@ -268,7 +268,7 @@ If you encounter any issues:
 3. Verify the `settings.conf` format if using custom configuration
 4. Create an issue in the repository with error details
 
-## 🌟 Acknowledgments
+## Acknowledgments
 
 - [LeetCode](https://leetcode.com/) for providing the daily challenges
 - [LeetCode API](https://github.com/noworneverev/leetcode-api) for the unofficial API
