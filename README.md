@@ -104,7 +104,7 @@ leetcode-daily --terminal
 - Direct LeetCode links
 - No file system changes
 
-## ⚙️ Configuration
+## Configuration
 
 ### Language Selection
 
