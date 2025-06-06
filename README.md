@@ -1,4 +1,4 @@
-# LeetCode Daily Problem CLI
+# LeetCode Daily Challange CLI
 
 A comprehensive bash script that fetches LeetCode's daily coding challenge and automatically generates solution templates in multiple programming languages.
 
@@ -139,7 +139,7 @@ Each generated file includes:
 - ✅ **Time/Space complexity placeholders**
 - ✅ **Execution output sections** for capturing results
 
-## 🎨 Sample Output
+## Sample Output
 
 ### File Generation Mode
 ```
@@ -276,4 +276,4 @@ If you encounter any issues:
 
 ---
 
-**Happy Coding! 🎯**
+**Happy Coding!**
