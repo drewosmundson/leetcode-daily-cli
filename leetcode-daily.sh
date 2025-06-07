@@ -236,9 +236,7 @@ EOF
     
     echo "$filename"
 }
-
-# Function to create C# file
-create_csharp_file() {
+create_csharp_project() {
     local date="$1"
     local title="$2"
     local problem_id="$3"
@@ -246,9 +244,79 @@ create_csharp_file() {
     local content="$5"
     local link="$6"
     
-    local filename="leetcode_${problem_id}_$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/__*/_/g' | sed 's/_$//').cs"
+    local project_name="LeetCode_${problem_id}_$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/__*/_/g' | sed 's/_$//').cs"
     
-    cat > "$filename" << EOF
+    # Check if dotnet is available
+    if ! command -v dotnet >/dev/null 2>&1; then
+        echo -e "${YELLOW}⚠️  dotnet CLI not found. Creating standalone C# file instead.${NC}"
+        create_csharp_file "$date" "$title" "$problem_id" "$difficulty" "$content" "$link"
+        return
+    fi
+    
+    # Create dotnet console project
+    dotnet new console -n "$project_name" --force > /dev/null 2>&1
+    
+    if [ $? -eq 0 ]; then
+        # Replace Program.cs content
+        cat > "$project_name/Program.cs" << EOF
+/*
+ * LeetCode Daily Challenge - ${date}
+ * Problem #${problem_id}: ${title}
+ * Difficulty: ${difficulty}
+ * Link: https://leetcode.com${link}
+ * 
+$(create_comment_block "$(clean_html "$content")" " * ")
+ */
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public class Solution 
+{
+    public ${method_return} ${method_name}(${method_params}) 
+    {
+        // TODO: Implement solution
+        return default(${method_return});
+    }
+}
+
+class Program 
+{
+    static void Main() 
+    {
+        Solution solution = new Solution();
+        Console.WriteLine("✅ Ready to implement solution!");
+        
+        // TODO: Add test cases
+    }
+}
+EOF
+        echo "$project_name"
+    else
+        echo -e "${RED}❌ Failed to create dotnet project. Creating standalone file.${NC}"
+        create_csharp_file "$date" "$title" "$problem_id" "$difficulty" "$content" "$link"
+    fi
+}
+
+# Function to create C# file
+create_csharp_file() {
+
+    local date="$1"
+    local title="$2"
+    local problem_id="$3"
+    local difficulty="$4"
+    local content="$5"
+    local link="$6"
+    
+    local foldername="leetcode_${problem_id}_$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/__*/_/g' | sed 's/_$//').cs"
+    
+    dotnet new console -n "$foldername"
+
+  cd "$foldername" || exit 1
+
+
+    cat > "Program.cs" << EOF
 /*
  * LeetCode Daily Challenge - ${date}
  * Problem #${problem_id}: ${title}
