@@ -110,7 +110,7 @@ create_python_file() {
     local content="$5"
     local link="$6"
     
-    local filename="leetcode_${problem_id}_$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/__*/_/g' | sed 's/_$//').py"
+    local filename="${problem_id}_$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/__*/_/g' | sed 's/_$//').py"
     
     cat > "$filename" << EOF
 """
@@ -157,8 +157,7 @@ if __name__ == "__main__":
 
 # TODO: Add execution output below
 # ========== EXECUTION OUTPUT ==========
-# Run: python ${filename}
-# 
+# python ${filename}
 # ======================================
 EOF
     
@@ -174,7 +173,7 @@ create_javascript_file() {
     local content="$5"
     local link="$6"
     
-    local filename="leetcode_${problem_id}_$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/__*/_/g' | sed 's/_$//').js"
+    local filename="${problem_id}_$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/__*/_/g' | sed 's/_$//').js"
     
     cat > "$filename" << EOF
 /**
@@ -229,8 +228,7 @@ testSolution();
 
 // TODO: Add execution output below
 // ========== EXECUTION OUTPUT ==========
-// Run: node ${filename}
-// 
+// node ${filename}
 // ======================================
 EOF
     
@@ -244,7 +242,7 @@ create_csharp_project() {
     local content="$5"
     local link="$6"
     
-    local project_name="LeetCode_${problem_id}_$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/__*/_/g' | sed 's/_$//').cs"
+    local project_name="${problem_id}_$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/__*/_/g' | sed 's/_$//')"
     
     # Check if dotnet is available
     if ! command -v dotnet >/dev/null 2>&1; then
@@ -274,7 +272,7 @@ using System.Linq;
 
 public class Solution 
 {
-    public ${method_return} ${method_name}(${method_params}) 
+    public ${method_return} ${method_name}() 
     {
         // TODO: Implement solution
         return default(${method_return});
@@ -286,12 +284,17 @@ class Program
     static void Main() 
     {
         Solution solution = new Solution();
-        Console.WriteLine("✅ Ready to implement solution!");
         
         // TODO: Add test cases
     }
 }
+// TODO: Add execution output below
+// ========== EXECUTION OUTPUT ==========
+// cd $project_name
+// dotnet run
+// ======================================
 EOF
+
         echo "$project_name"
     else
         echo -e "${RED}❌ Failed to create dotnet project. Creating standalone file.${NC}"
@@ -309,14 +312,10 @@ create_csharp_file() {
     local content="$5"
     local link="$6"
     
-    local foldername="leetcode_${problem_id}_$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/__*/_/g' | sed 's/_$//').cs"
+    local filename="${problem_id}_$(echo "$title" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g' | sed 's/__*/_/g' | sed 's/_$//').cs"
     
-    dotnet new console -n "$foldername"
 
-  cd "$foldername" || exit 1
-
-
-    cat > "Program.cs" << EOF
+    cat > "$filename" << EOF
 /*
  * LeetCode Daily Challenge - ${date}
  * Problem #${problem_id}: ${title}
@@ -354,7 +353,7 @@ class Program
 {
     static void Main() 
     {
-        Solution solution = new Solution();
+        Solution solution = new Solution(${method_params});
         
         // TODO: Add test cases from problem description
         // Example:
@@ -368,9 +367,7 @@ class Program
 
 // TODO: Add execution output below
 // ========== EXECUTION OUTPUT ==========
-// Run: dotnet run
-// Compile: csc ${filename} && mono ${filename%.*}.exe
-// 
+// csc ${filename} && mono ${filename%.*}.exe
 // ======================================
 EOF
     
@@ -490,8 +487,8 @@ generate_files() {
     fi
 
     if [ "$GENERATE_CSHARP" = true ]; then
-        cs_file=$(create_csharp_file "$date" "$title" "$problem_id" "$difficulty" "$content" "$link")
-        echo "  🔷 $cs_file"
+        cs_project=$(create_csharp_project "$date" "$title" "$problem_id" "$difficulty" "$content" "$link")
+        echo "  🔷 $cs_project"
     fi
     echo ""
     echo -e "${CYAN}🚀 Next steps:${NC}"
