@@ -332,7 +332,7 @@ extract_method_info() {
 # Function to create directory structure
 create_directory_structure() {
     local date="$1"
-    local dir_name="leetcode_daily_$(echo $date | tr '-' '_')"
+    local dir_name="daily_$(echo $date | tr '-' '_')"
     
     mkdir -p "$dir_name"
     
