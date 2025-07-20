@@ -52,22 +52,22 @@ if [ ! -f "$MAIN_SCRIPT_PATH" ]; then
     fi
 fi
 
-echo -e "${GREEN}✅ Found main script: $MAIN_SCRIPT_PATH${NC}"
+echo -e "${GREEN} Found main script: $MAIN_SCRIPT_PATH${NC}"
 
 # Create directories
-echo -e "${BLUE}📁 Creating directories...${NC}"
+echo -e "${BLUE} Creating directories...${NC}"
 mkdir -p "$INSTALL_DIR"
 mkdir -p "$CONFIG_DIR"
 
 # Copy script to install directory
-echo -e "${BLUE}📋 Installing script...${NC}"
+echo -e "${BLUE} Installing script...${NC}"
 cp "$MAIN_SCRIPT_PATH" "$INSTALL_DIR/"
 chmod +x "$INSTALL_DIR/$MAIN_SCRIPT"
 
 # Create default settings.conf if it doesn't exist
 SETTINGS_FILE="$CONFIG_DIR/settings.conf"
 if [ ! -f "$SETTINGS_FILE" ]; then
-    echo -e "${BLUE}📝 Creating default settings.conf...${NC}"
+    echo -e "${BLUE} Creating default settings.conf...${NC}"
     cat > "$SETTINGS_FILE" << EOF
 # LeetCode Daily Challenge Settings
 # Set to true/false to enable/disable file generation for each language
@@ -80,9 +80,9 @@ GENERATE_CSHARP=true
 # GENERATE_JAVA=false
 # GENERATE_CPP=false
 EOF
-    echo -e "${GREEN}✅ Created default settings at $SETTINGS_FILE${NC}"
+    echo -e "${GREEN} Created default settings at $SETTINGS_FILE${NC}"
 else
-    echo -e "${YELLOW}⚠️  Settings file already exists at $SETTINGS_FILE${NC}"
+    echo -e "${YELLOW}  Settings file already exists at $SETTINGS_FILE${NC}"
 fi
 
 # Create a wrapper script that handles the config file location
@@ -125,10 +125,10 @@ add_to_profile() {
             echo "export PATH=\"\$PATH:$INSTALL_DIR\"" >> "$profile_file"
             echo "alias $ALIAS_NAME=\"$WRAPPER_SCRIPT\"" >> "$profile_file"
             echo "" >> "$profile_file"
-            echo -e "${GREEN}✅ Added to $profile_name${NC}"
+            echo -e "${GREEN} Added to $profile_name${NC}"
             return 0
         else
-            echo -e "${YELLOW}⚠️  $profile_name already has $ALIAS_NAME configured${NC}"
+            echo -e "${YELLOW}  $profile_name already has $ALIAS_NAME configured${NC}"
             return 1
         fi
     fi
@@ -168,17 +168,17 @@ echo -e "${BLUE}🔍 Checking dependencies...${NC}"
 
 check_dependency() {
     if command -v "$1" &> /dev/null; then
-        echo -e "${GREEN}✅ $1 is installed${NC}"
+        echo -e "${GREEN} $1 is installed${NC}"
         return 0
     else
-        echo -e "${YELLOW}⚠️  $1 is not installed${NC}"
+        echo -e "${YELLOW}  $1 is not installed${NC}"
         return 1
     fi
 }
 
 check_dependency "curl"
 if ! check_dependency "jq"; then
-    echo -e "${YELLOW}📝 To install jq:${NC}"
+    echo -e "${YELLOW} To install jq:${NC}"
     echo "  Ubuntu/Debian: sudo apt install jq"
     echo "  macOS: brew install jq"
     echo "  CentOS/RHEL: sudo yum install jq"
@@ -186,9 +186,9 @@ if ! check_dependency "jq"; then
 fi
 
 echo ""
-echo -e "${GREEN}🎉 Installation completed successfully!${NC}"
+echo -e "${GREEN} Installation completed successfully!${NC}"
 echo ""
-echo -e "${YELLOW}📋 What was installed:${NC}"
+echo -e "${YELLOW} What was installed:${NC}"
 echo "  • Main script: $INSTALL_DIR/$MAIN_SCRIPT"
 echo "  • Wrapper script: $WRAPPER_SCRIPT"
 echo "  • Settings file: $SETTINGS_FILE"
@@ -210,12 +210,12 @@ else
 fi
 
 echo ""
-echo -e "${BLUE}📚 Usage:${NC}"
+echo -e "${BLUE} Usage:${NC}"
 echo "  $ALIAS_NAME                # Generate files for today's problem"
 echo "  $ALIAS_NAME --terminal     # Display problem in terminal only"
 echo "  $ALIAS_NAME --help         # Show help message"
 echo ""
-echo -e "${BLUE}⚙️  Configuration:${NC}"
+echo -e "${BLUE} Configuration:${NC}"
 echo "  Edit $SETTINGS_FILE to customize which languages to generate"
 echo ""
-echo -e "${CYAN}🚀 Ready to use! Run: $ALIAS_NAME --help${NC}"
+echo -e "${CYAN}Ready to use! Run: $ALIAS_NAME --help${NC}"

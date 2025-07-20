@@ -16,7 +16,7 @@ load_settings() {
     if [ -f "$config_file" ]; then
         source "$config_file"
     else
-        echo -e "${YELLOW}⚠️  settings.conf not found. Defaulting to all languages.${NC}"
+        echo -e "${YELLOW}settings.conf not found. Defaulting to all languages.${NC}"
         GENERATE_PYTHON=true
         GENERATE_JAVASCRIPT=true
         GENERATE_CSHARP=true
@@ -25,14 +25,14 @@ load_settings() {
 
 # Function to display the daily problem in terminal
 fetch_daily_problem() {
-    echo -e "${CYAN}🚀 Fetching today's LeetCode daily challenge...${NC}\n"
+    echo -e "${CYAN}Fetching today's LeetCode daily challenge...${NC}\n"
     
     # Fetch the daily problem
     response=$(curl -s https://leetcode-api-pied.vercel.app/daily) 
     
     # Check if curl was successful
     if [ $? -ne 0 ]; then
-        echo -e "${RED}❌ Error: Failed to fetch data from LeetCode API${NC}"
+        echo -e "${RED}Error: Failed to fetch data from LeetCode API${NC}"
         exit 1
     fi
     
@@ -47,25 +47,25 @@ fetch_daily_problem() {
         content=$(echo "$response" | jq -r '.question.content')
         
         # Display the information
-        echo -e "${PURPLE}📅 Date:${NC} $date"
-        echo -e "${BLUE}🔢 Problem #${question_id}:${NC} $title"
+        echo -e "${PURPLE}Date:${NC} $date"
+        echo -e "${BLUE}Problem #${question_id}:${NC} $title"
         
         # Color code difficulty
         case $difficulty in
             "Easy")
-                echo -e "${GREEN}🟢 Difficulty:${NC} $difficulty"
+                echo -e "${GREEN}Difficulty:${NC} $difficulty"
                 ;;
             "Medium")
-                echo -e "${YELLOW}🟡 Difficulty:${NC} $difficulty"
+                echo -e "${YELLOW}Difficulty:${NC} $difficulty"
                 ;;
             "Hard")
-                echo -e "${RED}🔴 Difficulty:${NC} $difficulty"
+                echo -e "${RED}Difficulty:${NC} $difficulty"
                 ;;
         esac
         
-        echo -e "${CYAN}🔗 LeetCode Link:${NC} https://leetcode.com$link"
+        echo -e "${CYAN}LeetCode Link:${NC} https://leetcode.com$link"
         echo ""
-        echo -e "${PURPLE}📝 Problem Description:${NC}"
+        echo -e "${PURPLE}Problem Description:${NC}"
         echo "────────────────────────────────────────"
         
         # Clean up HTML content (basic cleanup and remove excessive line breaks)
@@ -74,7 +74,7 @@ fetch_daily_problem() {
         
     else
         # Fallback without jq - basic parsing
-        echo -e "${YELLOW}⚠️  jq not found. Install jq for better formatting: sudo apt install jq${NC}\n"
+        echo -e "${YELLOW}  jq not found. Install jq for better formatting: sudo apt install jq${NC}\n"
         echo -e "${BLUE}Raw response:${NC}"
         echo "$response" | python3 -m json.tool 2>/dev/null || echo "$response"
     fi
@@ -246,7 +246,7 @@ create_csharp_project() {
     
     # Check if dotnet is available
     if ! command -v dotnet >/dev/null 2>&1; then
-        echo -e "${YELLOW}⚠️  dotnet CLI not found. Creating standalone C# file instead.${NC}"
+        echo -e "${YELLOW}dotnet CLI not found. Creating standalone C# file instead.${NC}"
         create_csharp_file "$date" "$title" "$problem_id" "$difficulty" "$content" "$link"
         return
     fi
@@ -297,7 +297,7 @@ EOF
 
         echo "$project_name"
     else
-        echo -e "${RED}❌ Failed to create dotnet project. Creating standalone file.${NC}"
+        echo -e "${RED}Failed to create dotnet project. Creating standalone file.${NC}"
         create_csharp_file "$date" "$title" "$problem_id" "$difficulty" "$content" "$link"
     fi
 }
@@ -425,19 +425,19 @@ setup_script() {
 
 # Main function for file generation
 generate_files() {
-    echo -e "${CYAN}🚀 Fetching today's LeetCode daily challenge...${NC}\n"
+    echo -e "${CYAN}Fetching today's LeetCode daily challenge...${NC}\n"
     
     # Fetch the daily problem
     response=$(curl -s https://leetcode-api-pied.vercel.app/daily)
     
     if [ $? -ne 0 ]; then
-        echo -e "${RED}❌ Error: Failed to fetch data from LeetCode API${NC}"
+        echo -e "${RED}Error: Failed to fetch data from LeetCode API${NC}"
         exit 1
     fi
     
     # Check if jq is available for JSON parsing
     if ! command -v jq >/dev/null 2>&1; then
-        echo -e "${RED}❌ Error: jq is required for JSON parsing${NC}"
+        echo -e "${RED}Error: jq is required for JSON parsing${NC}"
         echo -e "${YELLOW}Install with: sudo apt install jq (Ubuntu) or brew install jq (macOS)${NC}"
         exit 1
     fi
@@ -450,10 +450,20 @@ generate_files() {
     link=$(echo "$response" | jq -r '.link')
     content=$(echo "$response" | jq -r '.question.content')
     
-    echo -e "${PURPLE}📅 Date:${NC} $date"
-    echo -e "${BLUE}🔢 Problem #${problem_id}:${NC} $title"
-    echo -e "${YELLOW}🎯 Difficulty:${NC} $difficulty"
-    echo -e "${CYAN}🔗 LeetCode Link:${NC} https://leetcode.com$link"
+    echo -e "${PURPLE}Date:${NC} $date"
+    echo -e "${CYAN}Problem #${problem_id}:${NC} $title"
+        case $difficulty in
+            "Easy")
+                echo -e "${GREEN}Difficulty:${NC} $difficulty"
+                ;;
+            "Medium")
+                echo -e "${YELLOW}Difficulty:${NC} $difficulty"
+                ;;
+            "Hard")
+                echo -e "${RED}Difficulty:${NC} $difficulty"
+                ;;
+        esac
+    echo -e "${CYAN}LeetCode Link:${NC} https://leetcode.com$link"
     echo ""
     
     # Extract method information
@@ -471,39 +481,38 @@ generate_files() {
     cd "$dir_name"
     
 
-    echo -e "${PURPLE}📋 Summary:${NC}"
+    echo -e "${PURPLE}Summary:${NC}"
     echo "────────────────────────────────────────"
     echo -e "${YELLOW}Directory:${NC} $dir_name"
-    echo -e "${YELLOW}Files created:${NC}"
+    echo -e "${YELLOW}Files & Directories Created:${NC}"
     # Conditionally generate files
     if [ "$GENERATE_PYTHON" = true ]; then
         python_file=$(create_python_file "$date" "$title" "$problem_id" "$difficulty" "$content" "$link")
-        echo "  🐍 $python_file"
+        echo "   $python_file"
     fi
 
     if [ "$GENERATE_JAVASCRIPT" = true ]; then
         js_file=$(create_javascript_file "$date" "$title" "$problem_id" "$difficulty" "$content" "$link")
-        echo "  🟨 $js_file"
+        echo "   $js_file"
     fi
 
     if [ "$GENERATE_CSHARP" = true ]; then
         cs_project=$(create_csharp_project "$date" "$title" "$problem_id" "$difficulty" "$content" "$link")
-        echo "  🔷 $cs_project"
+        echo "   $cs_project"
     fi
     echo ""
-    echo -e "${CYAN}🚀 Next steps:${NC}"
+    echo -e "${CYAN}Next steps:${NC}"
     echo "1. cd $dir_name"
     echo "2. Edit the files and implement your solutions"
     echo "3. Customize method signatures and parameters"
     echo "4. Add test cases from the problem examples"
     echo "5. Run your solutions and capture output"
     echo ""
-    echo -e "${GREEN}Happy coding! 🎉${NC}"
 }
 
 # Show help
 show_help() {
-    echo -e "${CYAN}📚 LeetCode Daily Challenge Tool${NC}"
+    echo -e "${CYAN}LeetCode Daily Challenge Tool${NC}"
     echo ""
     echo -e "${YELLOW}Usage:${NC}"
     echo "  $0                    # Generate files for today's problem"
@@ -551,7 +560,7 @@ case "${1:-}" in
         generate_files
         ;;
     *)
-        echo -e "${RED}❌ Unknown option: $1${NC}"
+        echo -e "${RED} Unknown option: $1${NC}"
         echo -e "${YELLOW}Use --help for usage information${NC}"
         exit 1
         ;;

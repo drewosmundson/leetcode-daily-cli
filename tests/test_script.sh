@@ -12,7 +12,7 @@ SCRIPT_PATH="../leetcode-daily.sh"
 PASSED=0
 FAILED=0
 
-echo -e "${CYAN}🧪 LeetCode Daily Problem Fetcher - Tests${NC}"
+echo -e "${CYAN} LeetCode Daily Problem Fetcher - Tests${NC}"
 echo "============================================="
 
 # Test function
@@ -28,7 +28,7 @@ run_test() {
     exit_code=$?
     
     if [ $exit_code -eq $expected_exit_code ]; then
-        echo -e "${GREEN}✅ PASSED${NC}"
+        echo -e "${GREEN} PASSED${NC}"
         ((PASSED++))
         return 0
     else
@@ -43,14 +43,14 @@ run_test() {
 
 # Check if main script exists
 if [ ! -f "$SCRIPT_PATH" ]; then
-    echo -e "${RED}❌ Main script not found at $SCRIPT_PATH${NC}"
+    echo -e "${RED} Main script not found at $SCRIPT_PATH${NC}"
     exit 1
 fi
 
 # Make sure script is executable
 chmod +x "$SCRIPT_PATH"
 
-echo -e "${BLUE}📋 Running basic tests...${NC}\n"
+echo -e "${BLUE} Running basic tests...${NC}\n"
 
 # Test 1: Help option
 run_test "Help option (--help)" "$SCRIPT_PATH --help"
@@ -65,15 +65,15 @@ run_test "Setup option (--setup)" "$SCRIPT_PATH --setup"
 run_test "Invalid option (should fail)" "$SCRIPT_PATH --invalid" 1
 
 # Test 5: Check for required dependencies
-echo -e "\n${BLUE}🔍 Checking dependencies...${NC}"
+echo -e "\n${BLUE} Checking dependencies...${NC}"
 
 check_dependency() {
     local dep="$1"
     if command -v "$dep" &> /dev/null; then
-        echo -e "${GREEN}✅ $dep is available${NC}"
+        echo -e "${GREEN} $dep is available${NC}"
         return 0
     else
-        echo -e "${YELLOW}⚠️  $dep is not available${NC}"
+        echo -e "${YELLOW}  $dep is not available${NC}"
         return 1
     fi
 }
@@ -83,31 +83,31 @@ check_dependency "jq"
 
 # Test 6: API connectivity (if curl is available)
 if command -v curl &> /dev/null; then
-    echo -e "\n${BLUE}🌐 Testing API connectivity...${NC}"
+    echo -e "\n${BLUE} Testing API connectivity...${NC}"
     run_test "API connectivity" "curl -s --connect-timeout 5 https://leetcode-api-pied.vercel.app/daily > /dev/null"
 else
-    echo -e "${YELLOW}⚠️  Skipping API test (curl not available)${NC}"
+    echo -e "${YELLOW}  Skipping API test (curl not available)${NC}"
 fi
 
 # Test 7: Script syntax check
-echo -e "\n${BLUE}🔍 Checking script syntax...${NC}"
+echo -e "\n${BLUE} Checking script syntax...${NC}"
 run_test "Script syntax check" "bash -n $SCRIPT_PATH"
 
 # Test 8: Try to run the main functionality (with timeout)
-echo -e "\n${BLUE}🚀 Testing main functionality...${NC}"
+echo -e "\n${BLUE} Testing main functionality...${NC}"
 run_test "Main script execution (with timeout)" "timeout 30s $SCRIPT_PATH"
 
 # Summary
-echo -e "\n${CYAN}📊 Test Summary${NC}"
+echo -e "\n${CYAN} Test Summary${NC}"
 echo "=================="
-echo -e "${GREEN}✅ Passed: $PASSED${NC}"
-echo -e "${RED}❌ Failed: $FAILED${NC}"
-echo -e "${BLUE}📈 Total: $((PASSED + FAILED))${NC}"
+echo -e "${GREEN} Passed: $PASSED${NC}"
+echo -e "${RED} Failed: $FAILED${NC}"
+echo -e "${BLUE} Total: $((PASSED + FAILED))${NC}"
 
 if [ $FAILED -eq 0 ]; then
-    echo -e "\n${GREEN}🎉 All tests passed! The script appears to be working correctly.${NC}"
+    echo -e "\n${GREEN} All tests passed! The script appears to be working correctly.${NC}"
     exit 0
 else
-    echo -e "\n${RED}⚠️  Some tests failed. Please check the issues above.${NC}"
+    echo -e "\n${RED}  Some tests failed. Please check the issues above.${NC}"
     exit 1
 fi
